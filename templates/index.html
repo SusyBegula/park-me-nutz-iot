@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Parking System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fas fa-parking"></i>
+                <h1>SmartPark</h1>
+            </div>
+            <ul class="nav-links">
+                <li class="active">
+                    <a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                </li>
+                <li>
+                    <a href="#"><i class="fas fa-history"></i> History</a>
+                </li>
+                <li>
+                    <a href="#"><i class="fas fa-chart-line"></i> Analytics</a>
+                </li>
+                <li>
+                    <a href="#"><i class="fas fa-cog"></i> Settings</a>
+                </li>
+            </ul>
+            <div class="connection-status">
+                <div id="connection-indicator" class="indicator disconnected"></div>
+                <span id="connection-text">Disconnected</span>
+            </div>
+            <div class="connection-controls">
+                <select id="port-select" class="port-select">
+                    <option value="">Select Arduino Port</option>
+                </select>
+                <button id="connect-btn" class="connect-btn">Connect</button>
+                <button id="refresh-btn" class="refresh-btn"><i class="fas fa-sync-alt"></i></button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="top-bar">
+                <div class="breadcrumb">
+                    <i class="fas fa-home"></i> / Dashboard
+                </div>
+                <div class="user-info">
+                    <span id="current-time"></span>
+                    <div class="user">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Admin</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard">
+                <!-- Summary Cards -->
+                <div class="summary-cards">
+                    <div class="card total-slots">
+                        <div class="card-icon">
+                            <i class="fas fa-car"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Total Slots</h3>
+                            <p id="total-slots">3</p>
+                        </div>
+                    </div>
+
+                    <div class="card available-slots">
+                        <div class="card-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Available</h3>
+                            <p id="available-slots">3</p>
+                        </div>
+                    </div>
+
+                    <div class="card occupied-slots">
+                        <div class="card-icon">
+                            <i class="fas fa-ban"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Occupied</h3>
+                            <p id="occupied-slots">0</p>
+                        </div>
+                    </div>
+
+                    <div class="card utilization">
+                        <div class="card-icon">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Utilization</h3>
+                            <p id="utilization">0%</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Parking Map -->
+                <div class="section parking-map-container">
+                    <h2><i class="fas fa-map-marker-alt"></i> Parking Map</h2>
+                    <div class="parking-map">
+                        <div class="entrance-exit">
+                            <div class="gate entry-gate">
+                                <div class="gate-label">Entrance</div>
+                                <div class="gate-icon"><i class="fas fa-sign-in-alt"></i></div>
+                                <div id="entry-gate-status" class="gate-status">Ready</div>
+                            </div>
+                            <div class="parking-slots">
+                                <div id="slot-1" class="parking-slot free">
+                                    <div class="slot-number">1</div>
+                                    <div class="car-icon"><i class="fas fa-car"></i></div>
+                                </div>
+                                <div id="slot-2" class="parking-slot free">
+                                    <div class="slot-number">2</div>
+                                    <div class="car-icon"><i class="fas fa-car"></i></div>
+                                </div>
+                                <div id="slot-3" class="parking-slot free">
+                                    <div class="slot-number">3</div>
+                                    <div class="car-icon"><i class="fas fa-car"></i></div>
+                                </div>
+                            </div>
+                            <div class="gate exit-gate">
+                                <div class="gate-label">Exit</div>
+                                <div class="gate-icon"><i class="fas fa-sign-out-alt"></i></div>
+                                <div id="exit-gate-status" class="gate-status">Ready</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- System Status and Activity -->
+                <div class="flex-container">
+                    <!-- System Status -->
+                    <div class="section system-status">
+                        <h2><i class="fas fa-info-circle"></i> System Status</h2>
+                        <div class="status-grid">
+                            <div class="status-item">
+                                <span class="status-label">Connection:</span>
+                                <span id="connection-status" class="status-value disconnected">Disconnected</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-label">Update Rate:</span>
+                                <span id="update-rate" class="status-value">-</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-label">Last Update:</span>
+                                <span id="last-update" class="status-value">-</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-label">System Mode:</span>
+                                <span id="system-mode" class="status-value">Operational</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="section recent-activity">
+                        <h2><i class="fas fa-history"></i> Recent Activity</h2>
+                        <div id="activity-log" class="activity-list">
+                            <div class="activity-item">
+                                <div class="activity-icon entry"><i class="fas fa-sign-in-alt"></i></div>
+                                <div class="activity-details">
+                                    <div class="activity-title">Car Entered</div>
+                                    <div class="activity-time">Just now</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon parking"><i class="fas fa-parking"></i></div>
+                                <div class="activity-details">
+                                    <div class="activity-title">Slot 2 Occupied</div>
+                                    <div class="activity-time">1 min ago</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon exit"><i class="fas fa-sign-out-alt"></i></div>
+                                <div class="activity-details">
+                                    <div class="activity-title">Car Exited</div>
+                                    <div class="activity-time">5 mins ago</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html> 
