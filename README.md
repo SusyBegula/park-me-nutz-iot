@@ -85,6 +85,11 @@ A modern web-based dashboard for an Arduino Smart Parking System that monitors p
   - Verify the Arduino is running the correct code
   - Restart the Flask application
 
-## License
-
-[MIT License](LICENSE) 
+## Star Me Nuts
+<a href="https://www.star-history.com/#SusyBegula/park-me-nutz-iot&Date">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=SusyBegula/park-me-nutz-iot&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=SusyBegula/park-me-nutz-iot&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=SusyBegula/park-me-nutz-iot&type=Date" />
+ </picture>
+</a>
