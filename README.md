@@ -2,7 +2,8 @@
 
 A modern web-based dashboard for an Arduino Smart Parking System that monitors parking slots and controls entry/exit gates.
 
-![Smart Parking System](https://i.imgur.com/YourImageID.png)
+![Smart Parking System Web UI](image1.png)
+![Smart Parking System](image2.jpg)
 
 ## Features
 
